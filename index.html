@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALCULATOR LOGIC WITH JAVASCRIPT</title>
+    <style>
+        #result {
+            width: 90%;
+            height: 80px;
+            padding: 10px;
+            border-width: 10px;
+            border-radius: 5%;
+            border-collapse: collapse;
+            border-color: #31363F;
+            color: white;
+            font-size: x-large;
+            background-color: #222831;
+            text-align: right;
+        }
+
+        .num-btn, .num-btn-op, .num-btn-eq, .num-btn-AC, .num-btn-plus {
+            width: 6rem;
+            height: 6rem;
+            font-size: 2rem;
+            border-width: 4px;
+            border-collapse: collapse;
+            border-radius: 10%;
+            padding: 1rem;
+            text-align: center;
+            margin: 0.5rem;
+        }
+
+        .num-btn {
+            background-color: #B7B597;
+            color: black;
+            border-color: #EEEEEE;
+            border-color: black;
+        }
+
+        .num-btn-op {
+            background-color: #DAD3BE;
+            color: black;
+            border-color: black;
+        }
+
+        .num-btn-plus {
+            background-color: #DAD3BE;
+            color: black;
+            border-color: black;
+            height: calc(12rem + 1rem);
+            border-radius: 10%;
+        }
+
+        .num-btn-eq {
+            background-color: #03AED2;
+            color: white;
+            border-color: #31363F;
+        }
+
+        .num-btn-AC {
+            background-color: #DC5F00;
+            color: black;
+            border-color: #31363F;
+            width: calc(12rem + 1rem);
+        }
+
+        table {
+            border-radius: 5%;
+            background-color: #6B8A7A;
+            padding: 1.5rem;
+            margin: auto;
+            max-width: 100%;
+            padding-top: 5rem;
+        }
+
+        @media (max-width: 768px) {
+            .num-btn, .num-btn-op, .num-btn-eq, .num-btn-AC, .num-btn-plus {
+                width: 4rem;
+                height: 4rem;
+                font-size: 1.5rem;
+            }
+
+            .num-btn-AC {
+                width: calc(8rem + 0.5rem);
+            }
+
+            .num-btn-plus {
+                height: calc(8rem + 0.5rem);
+            }
+
+            #result {
+                height: 60px;
+                font-size: large;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .num-btn, .num-btn-op, .num-btn-eq, .num-btn-AC, .num-btn-plus {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1rem;
+            }
+
+            .num-btn-AC {
+                width: calc(6rem + 0.5rem);
+            }
+
+            .num-btn-plus {
+                height: calc(6rem + 0.5rem);
+            }
+
+            #result {
+                height: 40px;
+                font-size: medium;
+            }
+        }
+
+        .class {
+            background-color: #254336;
+            padding: 2rem;
+            width: 60%;
+            max-width: 500px;
+            margin: 0 auto;
+            border-radius: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="class">
+        <h1 style="text-align: center;">CALCULATOR APP</h1>
+        <table>
+            <tr>
+                <td colspan="4"><input type="text" id="result" disabled></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="button" value="AC" onclick="clearInput()" class="num-btn-AC"></td>
+                <td><button onclick="deleteLast()" class="num-btn"><span>&#9003;</span></button></td>
+                <td><input type="button" value="/" onclick="divide()" class="num-btn-op"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="7" onclick="appendNumber(7)" class="num-btn"></td>
+                <td><input type="button" value="8" onclick="appendNumber(8)" class="num-btn"></td>
+                <td><input type="button" value="9" onclick="appendNumber(9)" class="num-btn"></td>
+                <td><input type="button" value="x" onclick="multiply()" class="num-btn-op"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="4" onclick="appendNumber(4)" class="num-btn"></td>
+                <td><input type="button" value="5" onclick="appendNumber(5)" class="num-btn"></td>
+                <td><input type="button" value="6" onclick="appendNumber(6)" class="num-btn"></td>
+                <td><input type="button" value="-" onclick="minus()" class="num-btn-op"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="1" onclick="appendNumber(1)" class="num-btn"></td>
+                <td><input type="button" value="2" onclick="appendNumber(2)" class="num-btn"></td>
+                <td><input type="button" value="3" onclick="appendNumber(3)" class="num-btn"></td>
+                <td rowspan="2"><input type="button" value="+" onclick="add()" class="num-btn-plus"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="0" onclick="appendNumber(0)" class="num-btn"></td>
+                <td><input type="button" value="." onclick="decimal()" class="num-btn"></td>
+                <td><input type="button" value="=" onclick="calculate()" class="num-btn-eq"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        let currentInput = '';
+
+        function appendNumber(number) {
+            currentInput += number;
+            document.getElementById('result').value = currentInput;
+        }
+
+        function minus() {
+            currentOperator = "-";
+            currentInput += currentOperator;
+            document.getElementById('result').value = currentInput;
+        }
+
+        function add() {
+            currentOperator = "+";
+            currentInput += currentOperator;
+            document.getElementById('result').value = currentInput;
+        }
+
+        function divide() {
+            currentOperator = "/";
+            currentInput += currentOperator;
+            document.getElementById('result').value = currentInput;
+        }
+
+        function multiply() {
+            currentOperator = "*";
+            currentInput += currentOperator;
+            document.getElementById('result').value = currentInput;
+        }
+
+        function decimal() {
+            currentOperator = ".";
+            currentInput += '.';
+            document.getElementById('result').value = currentInput;
+        }
+
+        function clearInput() {
+            currentInput = '';
+            document.getElementById('result').value = '';
+        }
+
+        function deleteLast() {
+            currentInput = currentInput.slice(0, -1);
+            document.getElementById('result').value = currentInput;
+        }
+
+        function calculate() {
+            try {
+                const result = eval(currentInput);
+                document.getElementById('result').value = result;
+                currentInput = result.toString();
+            } catch (error) {
+                document.getElementById('result').value = 'Error';
+                currentInput = '';
+            }
+        }
+    </script>
+</body>
+</html>
